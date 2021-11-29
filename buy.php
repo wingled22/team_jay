@@ -49,6 +49,7 @@ if($_SESSION['status']=='invalid'|| empty($_SESSION['status']))
 
          $present_stock=$_SESSION['stocks'];
 
+         echo $_SESSION['stocks'];
          $result=$present_stock-$quantity;
          $stock=$result;
 
@@ -56,8 +57,8 @@ if($_SESSION['status']=='invalid'|| empty($_SESSION['status']))
     $create_query= "INSERT into buy values(null,'$product_name','$price','$quantity','$image','$client','$stock','$stock2','$id','$date')";
     $sqlCreate=mysqli_query($connection,$create_query);//store the submitted data in database
  
-      if($sqlCreate)
-     {
+   if($sqlCreate)
+   {
 
           
         

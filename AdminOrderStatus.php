@@ -464,57 +464,20 @@ $sqlCreates=mysqli_query($connection,$update_query);
   
 <main>
   
-<button type="button" class="btns" data-toggle="modal" data-target="#exampleModal">
-  Add Product
-</button>
-<a href="AdminOrderStatus.php">
+<a href="admin.php">
     <button type="button" class="btns" >
-      Order Status
+      Back to home
     </button>
 </a>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-           <form method="post" enctype="multipart/form-data">
-             <div class="row">
-                <input type="text" name="product_name" placeholder="Product Name">
-             </div>
-             <div class="row">
-                <input type="text" name="price" placeholder="Price">
-             </div>
-              <div class="row">
-                <input type="text" name="stock" placeholder="Stock">
-             </div>
-             <div class="row">
-                <input style="border: none;" type="file" name="product_image">
-             </div>
-              <input type="hidden" name="store_name" value="<?php echo $_SESSION['store']; ?>">
-           
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn" name="save">Save</button>
-      </div>
-    </div>
-  </div>
-  </form>
-</div>
+
 
 
 <div class="container-fluid">
 
             <?php
                $stores=$_SESSION['store'];
-               $query = "SELECT * FROM product where store_name='$stores'";
+               $query = "SELECT b.buy, b.price, b.quantity, b.image, b.product_id ,b.uname, b.status FROM buy b inner join product p on b.product_id = p.p_id where p.store_name = '$stores'";
                $query_run = mysqli_query($connection, $query);
                $location='store_img/';
                 
@@ -554,10 +517,9 @@ $sqlCreates=mysqli_query($connection,$update_query);
                             <th>Product Id</th>
                             <th>Product Name </th>
                             <th>Price </th>
-                            <th>Category </th>
-                            <th>Stock</th>
                             <th>Image</th>
-                            <th>Sales</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -570,25 +532,24 @@ $sqlCreates=mysqli_query($connection,$update_query);
                             {
                         ?>
                             <tr>
-                                <td class="column"><?php  echo $row['p_id']; ?></td>
-                                <td class="column"><?php  echo $row['p_name']; ?></td>
+                                <td class="column"><?php  echo $row['buy']; ?></td>
+                                <td class="column"><?php  echo $row['uname']; ?></td>
                                 <td class="column"><?php  echo $row['price']; ?></td>
-                                <td class="column"><?php  echo $row['category']; ?></td>
-                                <td class="column"><?php  echo $row['stock']; ?></td>
                                 <td style="padding: 4px" class="img"><img src=<?php echo $location.$row["image"];?>></td>
-                                <td class="column"><?php  echo $row['sale']; ?></td>
+                                <td class="column"><?php  echo $row['quantity']; ?></td>
 
                        
 
 
                               <!-- <td><?php //echo '<img src="data:img/design.jpg,'.base64_encode( $row['image'] ).'"/>';?></td>-->
                                <!--<td><?php  //echo $row['image']; ?></td>-->
+                               	<td><?php  echo $row['status']; ?></td>
                                 <td class="btn">
-                                   <a style="background-color: #1affd1;width: 80px;"href="product_update_process.php?p_id=<?php echo $row["p_id"]; ?>">Edit</a>
+                                   <a style="background-color: #1affd1;width: auto;" href="AdminOrderStatusCancel.php?buyID=<?php echo $row["buy"]; ?>">Cancel</a>
 
                                 </td>
                                 <td class="btn">
-                                    <a style="background-color: #ff5c33;width: 80px" href="product_delete_process.php?p_id=<?php echo $row["p_id"]; ?>">Delete</a>
+                                    <a style="background-color: #ff5c33;width: auto" href="AdminOrderStatusDone.php?buyID=<?php echo $row["buy"]; ?>">Mark As Done</a>
                                 </td>
                             </tr>
 
